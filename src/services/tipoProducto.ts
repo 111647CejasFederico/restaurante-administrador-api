@@ -70,6 +70,7 @@ const actualizarTipoProducto = async (
     await tipoProducto.update(datosActualizados);
     return tipoProducto;
   } catch (error) {
+    console.log(error);
     throw new Error("Error al actualizar el TipoProducto");
   }
 };

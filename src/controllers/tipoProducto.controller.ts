@@ -40,6 +40,7 @@ const postTipoProducto = async (req: RequestExt, res: Response) => {
     const responseTipoProducto = await crearTipoProducto(nuevaTipoProducto);
     res.status(201).send(responseTipoProducto);
   } catch (e) {
+    console.log(e);
     handleHttp(res, "Error_postTipoProducto");
   }
 };
