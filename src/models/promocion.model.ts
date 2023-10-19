@@ -36,11 +36,11 @@ Promocion.init(
     },
     descripcion: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     precio: {
       type: DataTypes.DECIMAL(10, 2),
-      allowNull: false,
+      allowNull: true,
     },
     fechaInicio: {
       type: DataTypes.DATEONLY,
