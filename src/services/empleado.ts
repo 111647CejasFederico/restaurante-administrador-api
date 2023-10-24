@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { EmpleadoInterface } from "../interfaces/empleado.interface";
+import { AuthType, EmpleadoInterface } from "../interfaces/empleado.interface";
 import Empleado from "../models/empleado.model";
 import TipoRol from "../models/tipoRol.model";
 import TipoEstadoUsuario from "../models/tipoEstadoUsuario.model";
@@ -7,7 +7,7 @@ import TipoEstadoUsuario from "../models/tipoEstadoUsuario.model";
 // Obtener todas las empleados
 const obtenerEmpleados = async (): Promise<EmpleadoInterface[]> => {
   try {
-    const empleados = await Empleado.findAll();
+    const empleados = (await Empleado.findAll()) as EmpleadoInterface[] | null;
     //@ts-ignore
     return empleados;
   } catch (error) {
@@ -19,11 +19,20 @@ const obtenerEmpleados = async (): Promise<EmpleadoInterface[]> => {
 const obtenerEmpleadoPorId = async (empleadoId: number): Promise<EmpleadoInterface | null> => {
   try {
     //@ts-ignore
-    let empleado: EmpleadoInterface | null = await Empleado.findByPk(empleadoId);
+    let empleado: EmpleadoInterface | null = (await Empleado.findByPk(
+      empleadoId
+    )) as EmpleadoInterface | null;
     return empleado;
   } catch (error) {
     throw new Error("Error al obtener la empleado por ID");
   }
+};
+
+const obtenerEmpleadoPorUsuario = async (user: AuthType) => {
+  const empleado: EmpleadoInterface | null = (await Empleado.findOne({
+    where: { user: user.user, rol: user.rol },
+  })) as EmpleadoInterface | null;
+  return empleado;
 };
 
 const obtenerEmpleadosConFiltros = async (
@@ -31,24 +40,24 @@ const obtenerEmpleadosConFiltros = async (
   estado: number | null,
   nombre: string | null,
   apellido: string | null
-): Promise<EmpleadoInterface[]> => {
+): Promise<EmpleadoInterface[] | null> => {
   try {
     const condiciones: any = {};
-    if (rol !== null && rol) {
+    if (rol !== null) {
       condiciones.rol = rol;
     }
-    if (estado !== null && estado) {
+    if (estado !== null) {
       condiciones.estado = estado;
     }
-    if (nombre !== null && nombre) {
+    if (nombre !== null) {
       condiciones.nombre = { [Op.like]: `%${nombre}%` };
     }
-    if (apellido !== null && apellido) {
+    if (apellido !== null) {
       condiciones.apellido = { [Op.like]: `%${apellido}%` };
     }
 
     //@ts-ignore
-    const empleados: EmpleadoInterface[] = await Empleado.findAll({
+    const empleados: EmpleadoInterface[] | null = (await Empleado.findAll({
       where: condiciones,
       include: [
         {
@@ -62,7 +71,7 @@ const obtenerEmpleadosConFiltros = async (
           attributes: ["nombre", "habilitado"],
         },
       ],
-    });
+    })) as EmpleadoInterface[] | null;
 
     return empleados;
   } catch (error) {
@@ -130,6 +139,7 @@ export {
   obtenerEmpleados,
   obtenerEmpleadoPorId,
   obtenerEmpleadosConFiltros,
+  obtenerEmpleadoPorUsuario,
   crearEmpleado,
   actualizarEmpleado,
   habilitarDeshabilitarEmpleado,

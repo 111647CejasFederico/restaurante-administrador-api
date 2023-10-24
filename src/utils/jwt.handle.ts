@@ -14,9 +14,19 @@ const generateToken = async (user: AuthType) => {
   }
 };
 
+const decodeToken = (token: string): AuthType | null => {
+  try {
+    const decoded = verify(token, JWT_SECRET) as { user: AuthType };
+    return decoded.user;
+  } catch (error) {
+    console.error("❌ Error al decodificar el token:", error);
+    return null;
+  }
+};
+
 const verifyToken = (jwtToken: string) => {
   const esValido = verify(jwtToken, JWT_SECRET);
   return esValido;
 };
 
-export { generateToken, verifyToken };
+export { generateToken, decodeToken, verifyToken };

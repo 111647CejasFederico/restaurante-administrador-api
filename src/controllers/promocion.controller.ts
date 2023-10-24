@@ -37,7 +37,10 @@ const getPromocionesFiltradas = async (req: RequestExt, res: Response) => {
   try {
     const { body } = req;
     const { estado, nombre } = body;
-    const promociones: PromocionInterface[] = await obtenerPromocionesConFiltros(estado, nombre);
+    const promociones: PromocionInterface[] = await obtenerPromocionesConFiltros(
+      estado !== undefined ? Number(estado) : null,
+      nombre !== undefined ? String(nombre) : null
+    );
     res.status(200).send(promociones);
   } catch (e) {
     handleHttp(res, "Error_getPromocion");
@@ -61,7 +64,7 @@ const putPromocion = async (req: RequestExt, res: Response) => {
     const promocionId: number = body.id;
     const datosActualizados: PromocionInterface = body;
     const responsePromocion = await actualizarPromocion(promocionId, datosActualizados);
-    res.status(204).send(responsePromocion);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_putPromocion");
   }
@@ -73,7 +76,7 @@ const putHabilitarDeshabilitarPromocion = async (req: RequestExt, res: Response)
     const promocionId: number = body.id;
     const estado: number = body.estado;
     const responsePromocion = await habilitarDeshabilitarPromocion(promocionId, estado);
-    res.status(204).send(responsePromocion);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_putPromocion");
   }
@@ -84,7 +87,7 @@ const deletePromocion = async (req: RequestExt, res: Response) => {
     const { body } = req;
     const promocionId: number = body.id;
     const responsePromocion = await eliminarPromocion(promocionId);
-    res.status(204).send(responsePromocion);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_deletePromocion");
   }

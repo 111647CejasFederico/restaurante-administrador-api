@@ -22,15 +22,15 @@ const obtenerTodosLosTiposRol = async () => {
 };
 
 // Metodo para obtener TiposRol filtrados
-const obtenerTipoRolConFiltro = async (tipoRolId?: number, habilitado?: boolean) => {
+const obtenerTipoRolConFiltro = async (tipoRolId: number | null, habilitado: boolean | null) => {
   try {
     const opcionesDeFiltro: any = {};
 
-    if (tipoRolId !== undefined) {
+    if (tipoRolId !== null) {
       opcionesDeFiltro.id = tipoRolId;
     }
 
-    if (habilitado !== undefined) {
+    if (habilitado !== null) {
       opcionesDeFiltro.habilitado = habilitado;
     }
 
@@ -58,14 +58,13 @@ const obtenerTipoRolPorId = async (tipoRolId: number) => {
 };
 
 // Método para actualizar TipoRol por ID
-const actualizarTipoRol = async (tipoRolId: number, datosActualizados: TipoRolInterface) => {
+const actualizarTipoRol = async (datosActualizados: TipoRolInterface) => {
   try {
-    const tipoRol = await TipoRol.findByPk(tipoRolId);
-    if (!tipoRol) {
-      throw new Error("TipoRol no encontrado");
-    }
-    await tipoRol.update(datosActualizados);
-    return tipoRol;
+    const tipoRol = await TipoRol.update(datosActualizados, {
+      where: { id: datosActualizados.id },
+    });
+    console.log(datosActualizados, tipoRol);
+    return tipoRol[0];
   } catch (error) {
     throw new Error("Error al actualizar el TipoRol");
   }

@@ -35,21 +35,23 @@ const obtenerTipoProductoPorId = async (tipoProductoId: number) => {
 };
 
 // Metodo para obtener TiposProducto filtrados
-const obtenerTipoProductoConFiltro = async (tipoProductoId?: number, habilitado?: boolean) => {
+const obtenerTipoProductoConFiltro = async (
+  tipoProductoId: number | null,
+  habilitado: boolean | null
+) => {
   try {
     const opcionesDeFiltro: any = {};
 
-    if (tipoProductoId !== undefined) {
+    if (tipoProductoId !== null) {
       opcionesDeFiltro.id = tipoProductoId;
     }
-
-    if (habilitado !== undefined) {
+    if (habilitado !== null) {
       opcionesDeFiltro.habilitado = habilitado;
     }
 
-    const tiposProducto = await TipoProducto.findAll({
+    const tiposProducto = (await TipoProducto.findAll({
       where: opcionesDeFiltro,
-    });
+    })) as TipoProductoInterface[];
 
     return tiposProducto;
   } catch (error) {
@@ -58,17 +60,12 @@ const obtenerTipoProductoConFiltro = async (tipoProductoId?: number, habilitado?
 };
 
 // Método para actualizar TipoProducto por ID
-const actualizarTipoProducto = async (
-  tipoProductoId: number,
-  datosActualizados: TipoProductoInterface
-) => {
+const actualizarTipoProducto = async (datosActualizados: TipoProductoInterface) => {
   try {
-    const tipoProducto = await TipoProducto.findByPk(tipoProductoId);
-    if (!tipoProducto) {
-      throw new Error("TipoProducto no encontrado");
-    }
-    await tipoProducto.update(datosActualizados);
-    return tipoProducto;
+    const tipoProducto = await TipoProducto.update(datosActualizados, {
+      where: { id: datosActualizados.id },
+    });
+    return tipoProducto[0];
   } catch (error) {
     console.log(error);
     throw new Error("Error al actualizar el TipoProducto");

@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", controlarJWT, getTipoEstadoUsuariosFiltrados);
 router.post("/", controlarJWT, postTipoEstadoUsuario);
-router.put("/:id", controlarJWT, putTipoEstadoUsuario);
-router.delete("/:id", controlarJWT, deleteTipoEstadoUsuario);
+router.put("/", controlarJWT, putTipoEstadoUsuario);
+router.delete("/", controlarJWT, deleteTipoEstadoUsuario);
 
 export { router };

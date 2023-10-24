@@ -12,7 +12,7 @@ class Empleado extends Model<EmpleadoInterface> implements Empleado {
   apellido!: string;
   nroDocumento!: number;
   rol!: number;
-  estado!: boolean;
+  estado!: number;
   telefono!: string;
   email!: string;
 }

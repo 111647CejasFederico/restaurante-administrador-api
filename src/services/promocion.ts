@@ -32,10 +32,10 @@ const obtenerPromocionesConFiltros = async (
 ): Promise<PromocionInterface[]> => {
   try {
     const condiciones: any = {};
-    if (estado !== null && estado) {
+    if (estado !== null) {
       condiciones.estado = estado;
     }
-    if (nombre !== null && nombre) {
+    if (nombre !== null) {
       condiciones.nombre = { [Op.like]: `%${nombre}%` };
     }
 

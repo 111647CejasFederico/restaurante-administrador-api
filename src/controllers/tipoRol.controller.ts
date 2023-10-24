@@ -20,9 +20,11 @@ const getTipoRols = async (req: Request, res: Response) => {
 
 const getTipoRolsFiltradas = async (req: Request, res: Response) => {
   try {
-    const { body } = req;
-    const { tipo, habilitado } = body;
-    const tipoRols: TipoRolInterface[] = await obtenerTipoRolConFiltro(tipo, habilitado);
+    const { tipo, habilitado } = req.query;
+    const tipoRols: TipoRolInterface[] = await obtenerTipoRolConFiltro(
+      tipo !== undefined ? Number(tipo) : null,
+      habilitado !== undefined ? Boolean(habilitado) : null
+    );
     res.status(200).send(tipoRols);
   } catch (e) {
     handleHttp(res, "Error_getTipoRol");
@@ -43,10 +45,9 @@ const postTipoRol = async (req: Request, res: Response) => {
 const putTipoRol = async (req: Request, res: Response) => {
   try {
     const { body } = req;
-    const tipoRolId: number = body.id;
     const datosActualizados: TipoRolInterface = body;
-    const responseTipoRol = await actualizarTipoRol(tipoRolId, datosActualizados);
-    res.status(204).send(responseTipoRol);
+    const responseTipoRol = await actualizarTipoRol(datosActualizados);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_putTipoRol");
   }
@@ -57,7 +58,7 @@ const deleteTipoRol = async (req: Request, res: Response) => {
     const { body } = req;
     const tipoRolId: number = body.id;
     const responseTipoRol = await eliminarTipoRol(tipoRolId);
-    res.status(204).send(responseTipoRol);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_deleteTipoRol");
   }

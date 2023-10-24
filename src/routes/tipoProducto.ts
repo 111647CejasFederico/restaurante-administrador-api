@@ -12,7 +12,7 @@ const router = Router();
 
 router.get("/", controlarJWT, getTipoProductosFiltradas);
 router.post("/", controlarJWT, postTipoProducto);
-router.put("/:id", controlarJWT, putTipoProducto);
-router.delete("/:id", controlarJWT, deleteTipoProducto);
+router.put("/", controlarJWT, putTipoProducto);
+router.delete("/", controlarJWT, deleteTipoProducto);
 
 export { router };

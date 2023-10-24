@@ -21,11 +21,10 @@ const getTipoProductos = async (req: RequestExt, res: Response) => {
 
 const getTipoProductosFiltradas = async (req: RequestExt, res: Response) => {
   try {
-    const { body } = req;
-    const { tipo, habilitado } = body;
+    const { tipo, habilitado } = req.query;
     const tipoProductos: TipoProductoInterface[] = await obtenerTipoProductoConFiltro(
-      tipo,
-      habilitado
+      tipo !== undefined ? Number(tipo) : null,
+      habilitado !== undefined ? Boolean(habilitado) : null
     );
     res.status(200).send(tipoProductos);
   } catch (e) {
@@ -48,10 +47,9 @@ const postTipoProducto = async (req: RequestExt, res: Response) => {
 const putTipoProducto = async (req: RequestExt, res: Response) => {
   try {
     const { body } = req;
-    const tipoProductoId: number = body.id;
     const datosActualizados: TipoProductoInterface = body;
-    const responseTipoProducto = await actualizarTipoProducto(tipoProductoId, datosActualizados);
-    res.status(204).send(responseTipoProducto);
+    const responseTipoProducto = await actualizarTipoProducto(datosActualizados);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_putTipoProducto");
   }
@@ -62,7 +60,7 @@ const deleteTipoProducto = async (req: RequestExt, res: Response) => {
     const { body } = req;
     const tipoProductoId: number = body.id;
     const responseTipoProducto = await eliminarTipoProducto(tipoProductoId);
-    res.status(204).send(responseTipoProducto);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_deleteTipoProducto");
   }

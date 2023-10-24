@@ -35,15 +35,17 @@ const obtenerTipoEstadoUsuarioPorId = async (tipoUsuarioId: number) => {
 };
 
 // Metodo para obtener TiposEstadoUsuario filtrados
-const obtenerTipoEstadoUsuarioConFiltro = async (tipoUsuarioId?: number, habilitado?: boolean) => {
+const obtenerTipoEstadoUsuarioConFiltro = async (
+  tipoUsuarioId: number | null,
+  habilitado: boolean | null
+) => {
   try {
     const opcionesDeFiltro: any = {};
 
-    if (tipoUsuarioId !== undefined) {
+    if (tipoUsuarioId !== null) {
       opcionesDeFiltro.id = tipoUsuarioId;
     }
-
-    if (habilitado !== undefined) {
+    if (habilitado !== null) {
       opcionesDeFiltro.habilitado = habilitado;
     }
 
@@ -58,17 +60,12 @@ const obtenerTipoEstadoUsuarioConFiltro = async (tipoUsuarioId?: number, habilit
 };
 
 // Método para actualizar TipoEstadoUsuario por ID
-const actualizarTipoEstadoUsuario = async (
-  tipoUsuarioId: number,
-  datosActualizados: TipoEstadoUsuarioInterface
-) => {
+const actualizarTipoEstadoUsuario = async (datosActualizados: TipoEstadoUsuarioInterface) => {
   try {
-    const tipoUsuario = await TipoEstadoUsuario.findByPk(tipoUsuarioId);
-    if (!tipoUsuario) {
-      throw new Error("TipoEstadoUsuario no encontrado");
-    }
-    await tipoUsuario.update(datosActualizados);
-    return tipoUsuario;
+    const tipoUsuario = await TipoEstadoUsuario.update(datosActualizados, {
+      where: { id: datosActualizados.id },
+    });
+    return tipoUsuario[0];
   } catch (error) {
     throw new Error("Error al actualizar el TipoEstadoUsuario");
   }

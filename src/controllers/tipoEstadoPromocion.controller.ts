@@ -22,10 +22,12 @@ const getTipoEstadoPromocions = async (req: RequestExt, res: Response) => {
 
 const getTipoEstadoPromocionsFiltrados = async (req: RequestExt, res: Response) => {
   try {
-    const { body } = req;
-    const { tipo, habilitado } = body;
+    const { tipo, habilitado } = req.query;
     const tipoEstadoPromocions: TipoEstadoPromocionInterface[] =
-      await obtenerTipoEstadoPromocionConFiltro(tipo, habilitado);
+      await obtenerTipoEstadoPromocionConFiltro(
+        tipo !== undefined ? Number(tipo) : null,
+        habilitado !== undefined ? Boolean(habilitado) : null
+      );
     res.status(200).send(tipoEstadoPromocions);
   } catch (e) {
     handleHttp(res, "Error_getTipoEstadoPromocion");
@@ -46,13 +48,9 @@ const postTipoEstadoPromocion = async (req: RequestExt, res: Response) => {
 const putTipoEstadoPromocion = async (req: RequestExt, res: Response) => {
   try {
     const { body } = req;
-    const tipoEstadoPromocionId: number = body.id;
     const datosActualizados: TipoEstadoPromocionInterface = body;
-    const responseTipoEstadoPromocion = await actualizarTipoEstadoPromocion(
-      tipoEstadoPromocionId,
-      datosActualizados
-    );
-    res.status(204).send(responseTipoEstadoPromocion);
+    const responseTipoEstadoPromocion = await actualizarTipoEstadoPromocion(datosActualizados);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_putTipoEstadoPromocion");
   }
@@ -63,7 +61,7 @@ const deleteTipoEstadoPromocion = async (req: RequestExt, res: Response) => {
     const { body } = req;
     const tipoEstadoPromocionId: number = body.id;
     const responseTipoEstadoPromocion = await eliminarTipoEstadoPromocion(tipoEstadoPromocionId);
-    res.status(204).send(responseTipoEstadoPromocion);
+    res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_deleteTipoEstadoPromocion");
   }

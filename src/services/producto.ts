@@ -31,16 +31,16 @@ const obtenerProductosConFiltros = async (
 ): Promise<ProductoInterface[]> => {
   try {
     const condiciones: any = {};
-    if (tipo !== null && tipo) {
+    if (tipo !== null) {
       condiciones.tipo = tipo;
     }
-    if (habilitado !== null && habilitado) {
+    if (habilitado !== null) {
       condiciones.habilitado = habilitado;
     }
-    if (nombre !== null && nombre) {
+    if (nombre !== null) {
       condiciones.nombre = { [Op.like]: `%${nombre}%` };
     }
-
+    console.log(condiciones);
     const productos: ProductoInterface[] = await Producto.findAll({
       where: condiciones,
       include: [
@@ -69,13 +69,10 @@ const crearProducto = async (nuevaProducto: ProductoInterface): Promise<Producto
 };
 
 // Actualizar una producto por su ID
-const actualizarProducto = async (
-  productoId: number,
-  datosActualizados: ProductoInterface
-): Promise<number> => {
+const actualizarProducto = async (datosActualizados: ProductoInterface): Promise<number> => {
   try {
-    const resultado: [number] = await Producto.update(datosActualizados, {
-      where: { id: productoId },
+    const resultado = await Producto.update(datosActualizados, {
+      where: { id: datosActualizados.id },
     });
     return resultado[0];
   } catch (error) {

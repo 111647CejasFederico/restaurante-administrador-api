@@ -36,17 +36,16 @@ const obtenerTipoEstadoPromocionPorId = async (tipoPromocionId: number) => {
 
 // Metodo para obtener TiposEstadoPromocion filtrados
 const obtenerTipoEstadoPromocionConFiltro = async (
-  tipoPromocionId?: number,
-  habilitado?: boolean
+  tipoPromocionId: number | null,
+  habilitado: boolean | null
 ) => {
   try {
     const opcionesDeFiltro: any = {};
 
-    if (tipoPromocionId !== undefined) {
+    if (tipoPromocionId !== null) {
       opcionesDeFiltro.id = tipoPromocionId;
     }
-
-    if (habilitado !== undefined) {
+    if (habilitado !== null) {
       opcionesDeFiltro.habilitado = habilitado;
     }
 
@@ -61,17 +60,12 @@ const obtenerTipoEstadoPromocionConFiltro = async (
 };
 
 // Método para actualizar TipoEstadoPromocion por ID
-const actualizarTipoEstadoPromocion = async (
-  tipoPromocionId: number,
-  datosActualizados: TipoEstadoPromocionInterface
-) => {
+const actualizarTipoEstadoPromocion = async (datosActualizados: TipoEstadoPromocionInterface) => {
   try {
-    const tipoPromocion = await TipoEstadoPromocion.findByPk(tipoPromocionId);
-    if (!tipoPromocion) {
-      throw new Error("TipoEstadoPromocion no encontrado");
-    }
-    await tipoPromocion.update(datosActualizados);
-    return tipoPromocion;
+    const tipoPromocion = await TipoEstadoPromocion.update(datosActualizados, {
+      where: { id: datosActualizados.id },
+    });
+    return tipoPromocion[0];
   } catch (error) {
     throw new Error("Error al actualizar el TipoEstadoPromocion");
   }
