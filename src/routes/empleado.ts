@@ -13,7 +13,7 @@ const router = Router();
 router.get("/", controlarJWT, getEmpleadosFiltradas);
 router.get("/getMe", controlarJWT, getEmpleadoBySesion);
 router.get("/:id", controlarJWT, getEmpleadoByID);
-router.put("/:id", controlarJWT, putEmpleado);
+router.put("/", controlarJWT, putEmpleado);
 router.delete("/:id", controlarJWT, deleteEmpleado);
 
 export { router };

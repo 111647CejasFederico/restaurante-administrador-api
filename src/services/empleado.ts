@@ -3,6 +3,7 @@ import { AuthType, EmpleadoInterface } from "../interfaces/empleado.interface";
 import Empleado from "../models/empleado.model";
 import TipoRol from "../models/tipoRol.model";
 import TipoEstadoUsuario from "../models/tipoEstadoUsuario.model";
+import { encriptar } from "../utils/bcrypt.handle";
 
 // Obtener todas las empleados
 const obtenerEmpleados = async (): Promise<EmpleadoInterface[]> => {
@@ -91,13 +92,10 @@ const crearEmpleado = async (nuevaEmpleado: EmpleadoInterface): Promise<Empleado
 };
 
 // Actualizar una empleado por su ID
-const actualizarEmpleado = async (
-  empleadoId: number,
-  datosActualizados: EmpleadoInterface
-): Promise<number> => {
+const actualizarEmpleado = async (datosActualizados: EmpleadoInterface): Promise<number> => {
   try {
     const resultado: [number] = await Empleado.update(datosActualizados, {
-      where: { id: empleadoId },
+      where: { id: datosActualizados.id },
     });
     return resultado[0];
   } catch (error) {

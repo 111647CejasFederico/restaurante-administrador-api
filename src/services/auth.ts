@@ -13,7 +13,7 @@ const registrarNuevoUsuario = async (nuevoEmpleado: EmpleadoInterface) => {
   if (usuarioExistente) return "Empleado ya existente";
   else {
     nuevoEmpleado.pass = await encriptar(nuevoEmpleado.pass);
-    const empleadoCreado = await Empleado.create(nuevoEmpleado);
+    const empleadoCreado = await Empleado.create({ ...nuevoEmpleado, id: 0 });
     return empleadoCreado;
   }
 };

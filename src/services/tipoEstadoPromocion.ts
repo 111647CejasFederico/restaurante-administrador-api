@@ -4,7 +4,10 @@ import TipoEstadoPromocion from "../models/tipoEstadoPromocion.model";
 // Método para crear un nuevo TipoEstadoPromocion
 const crearTipoEstadoPromocion = async (nuevoTipoEstadoPromocion: TipoEstadoPromocionInterface) => {
   try {
-    const tipoPromocionCreado = await TipoEstadoPromocion.create(nuevoTipoEstadoPromocion);
+    const tipoPromocionCreado = await TipoEstadoPromocion.create({
+      ...nuevoTipoEstadoPromocion,
+      id: 0,
+    });
     return tipoPromocionCreado;
   } catch (error) {
     throw new Error("Error al crear el TipoEstadoPromocion");

@@ -61,9 +61,8 @@ const postPromocion = async (req: RequestExt, res: Response) => {
 const putPromocion = async (req: RequestExt, res: Response) => {
   try {
     const { body } = req;
-    const promocionId: number = body.id;
     const datosActualizados: PromocionInterface = body;
-    const responsePromocion = await actualizarPromocion(promocionId, datosActualizados);
+    const responsePromocion = await actualizarPromocion(datosActualizados);
     res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_putPromocion");

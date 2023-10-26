@@ -61,7 +61,10 @@ const obtenerPromocionesConFiltros = async (
 const crearPromocion = async (nuevaPromocion: PromocionInterface): Promise<PromocionInterface> => {
   try {
     //@ts-ignore
-    const promocionCreada: PromocionInterface = await Promocion.create(nuevaPromocion);
+    const promocionCreada: PromocionInterface = await Promocion.create({
+      ...nuevaPromocion,
+      id: 0,
+    });
     return promocionCreada;
   } catch (error) {
     console.log(error);
@@ -70,13 +73,10 @@ const crearPromocion = async (nuevaPromocion: PromocionInterface): Promise<Promo
 };
 
 // Actualizar una promocion por su ID
-const actualizarPromocion = async (
-  promocionId: number,
-  datosActualizados: PromocionInterface
-): Promise<number> => {
+const actualizarPromocion = async (datosActualizados: PromocionInterface): Promise<number> => {
   try {
     const resultado: [number] = await Promocion.update(datosActualizados, {
-      where: { id: promocionId },
+      where: { id: datosActualizados.id },
     });
     return resultado[0];
   } catch (error) {

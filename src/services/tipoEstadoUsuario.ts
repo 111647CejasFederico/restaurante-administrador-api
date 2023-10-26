@@ -4,7 +4,7 @@ import TipoEstadoUsuario from "../models/tipoEstadoUsuario.model";
 // Método para crear un nuevo TipoEstadoUsuario
 const crearTipoEstadoUsuario = async (nuevoTipoEstadoUsuario: TipoEstadoUsuarioInterface) => {
   try {
-    const tipoUsuarioCreado = await TipoEstadoUsuario.create(nuevoTipoEstadoUsuario);
+    const tipoUsuarioCreado = await TipoEstadoUsuario.create({ ...nuevoTipoEstadoUsuario, id: 0 });
     return tipoUsuarioCreado;
   } catch (error) {
     throw new Error("Error al crear el TipoEstadoUsuario");

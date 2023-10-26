@@ -61,7 +61,7 @@ const obtenerProductosConFiltros = async (
 // Crear una nueva producto
 const crearProducto = async (nuevaProducto: ProductoInterface): Promise<ProductoInterface> => {
   try {
-    const productoCreada: ProductoInterface = await Producto.create(nuevaProducto);
+    const productoCreada: ProductoInterface = await Producto.create({ ...nuevaProducto, id: 0 });
     return productoCreada;
   } catch (error) {
     throw new Error("Error al crear la producto");

@@ -64,9 +64,8 @@ const getEmpleadosFiltradas = async (req: RequestExt, res: Response) => {
 const putEmpleado = async (req: RequestExt, res: Response) => {
   try {
     const { body } = req;
-    const empleadoId: number = body.id;
     const datosActualizados: EmpleadoInterface = body;
-    const responseEmpleado = await actualizarEmpleado(empleadoId, datosActualizados);
+    const responseEmpleado = await actualizarEmpleado(datosActualizados);
     res.sendStatus(204);
   } catch (e) {
     handleHttp(res, "Error_putEmpleado");
@@ -81,7 +80,7 @@ const putHabilitarDeshabilitarEmpleado = async (req: RequestExt, res: Response) 
     const responseEmpleado = await habilitarDeshabilitarEmpleado(empleadoId, estado);
     res.sendStatus(204);
   } catch (e) {
-    handleHttp(res, "Error_putEmpleado");
+    handleHttp(res, "Error_putHabilitarDeshabilitarEmpleado");
   }
 };
 

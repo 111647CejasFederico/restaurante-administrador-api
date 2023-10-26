@@ -4,7 +4,7 @@ import TipoProducto from "../models/tipoProducto.model";
 // Método para crear un nuevo TipoProducto
 const crearTipoProducto = async (nuevoTipoProducto: TipoProductoInterface) => {
   try {
-    const tipoProductoCreado = await TipoProducto.create(nuevoTipoProducto);
+    const tipoProductoCreado = await TipoProducto.create({ ...nuevoTipoProducto, id: 0 });
     return tipoProductoCreado;
   } catch (error) {
     throw new Error("Error al crear el TipoProducto");

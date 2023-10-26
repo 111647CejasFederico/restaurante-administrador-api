@@ -4,7 +4,7 @@ import TipoRol from "../models/tipoRol.model";
 // Método para crear un nuevo TipoRol
 const crearTipoRol = async (nuevoTipoRol: TipoRolInterface) => {
   try {
-    const tipoRolCreado = await TipoRol.create(nuevoTipoRol);
+    const tipoRolCreado = await TipoRol.create({ ...nuevoTipoRol, id: 0 });
     return tipoRolCreado;
   } catch (error) {
     throw new Error("Error al crear el TipoRol");
