@@ -10,6 +10,9 @@ class DetalleCarta extends Model<DetalleCartaInterface> implements DetalleCartaI
   carta!: number;
   promocion!: number;
   producto!: number;
+  cantidadDisponible!: number;
+  diponible!: boolean;
+  visible!: boolean;
 }
 
 DetalleCarta.init(
@@ -29,7 +32,7 @@ DetalleCarta.init(
     },
     producto: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: Producto,
         key: "id",
@@ -37,11 +40,25 @@ DetalleCarta.init(
     },
     promocion: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: Promocion,
         key: "id",
       },
+    },
+    cantidadDisponible: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    diponible: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 1,
+    },
+    visible: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 1,
     },
   },
   {

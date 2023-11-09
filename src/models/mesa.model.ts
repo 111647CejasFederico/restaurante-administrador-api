@@ -1,11 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/mysql.config";
 import { MesaInterface } from "../interfaces/mesa.interface";
+import Ubicacion from "./ubicacion.model";
 
 class Mesa extends Model<MesaInterface> implements Mesa {
   id!: number;
   ubicacion!: number;
-  habilitado!: boolean;
+  estado!: number;
 }
 
 Mesa.init(
@@ -18,9 +19,13 @@ Mesa.init(
     ubicacion: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: Ubicacion,
+        key: "id",
+      },
     },
-    habilitado: {
-      type: DataTypes.BOOLEAN,
+    estado: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },
@@ -34,5 +39,10 @@ Mesa.init(
     omitNull: true,
   }
 );
+
+Mesa.belongsTo(Ubicacion, {
+  foreignKey: "ubicacion",
+  as: "UbicacionMesa",
+});
 
 export default Mesa;

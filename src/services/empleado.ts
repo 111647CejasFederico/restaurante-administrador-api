@@ -3,7 +3,6 @@ import { AuthType, EmpleadoInterface } from "../interfaces/empleado.interface";
 import Empleado from "../models/empleado.model";
 import TipoRol from "../models/tipoRol.model";
 import TipoEstadoUsuario from "../models/tipoEstadoUsuario.model";
-import { encriptar } from "../utils/bcrypt.handle";
 
 // Obtener todas las empleados
 const obtenerEmpleados = async (): Promise<EmpleadoInterface[]> => {

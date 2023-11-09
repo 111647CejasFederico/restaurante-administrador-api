@@ -6,6 +6,9 @@ export interface DetalleCartaInterface {
   carta: number;
   promocion: number | null;
   producto: number | null;
+  cantidadDisponible: number | null;
+  diponible: boolean;
+  visible: boolean;
   Promocion?: PromocionInterface;
   Producto?: ProductoInterface | null;
 }
