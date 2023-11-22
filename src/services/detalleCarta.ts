@@ -101,6 +101,7 @@ const crearDetalleCarta = async (
     const detalleCartaCreado: DetalleCartaInterface = await DetalleCarta.create(nuevoDetalleCarta);
     return detalleCartaCreado;
   } catch (error) {
+    console.error(error);
     throw new Error("Error al crear el detalle de carta");
   }
 };

@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/mysql.config";
 import { CartaInterface } from "../interfaces/carta.interface";
+import DetalleCarta from "./detalleCarta.model";
 
 class Carta extends Model<CartaInterface> implements CartaInterface {
   id!: number;
@@ -48,5 +49,10 @@ Carta.init(
     updatedAt: "fecha_actualizacion",
   }
 );
+
+Carta.hasMany(DetalleCarta, {
+  foreignKey: "carta",
+  as: "DetallesCarta", // Puedes usar cualquier nombre que prefieras
+});
 
 export default Carta;

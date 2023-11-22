@@ -1,4 +1,4 @@
-// import { DetalleCartaInterface } from "./detalleCarta.interface";
+import { DetalleCartaInterface } from "./detalleCarta.interface";
 
 export interface CartaInterface {
   id: number;
@@ -7,5 +7,5 @@ export interface CartaInterface {
   fechaInicioValidez: string;
   fechaFinValidez: string;
   habilitado: boolean;
-  // DetalleCarta?: DetalleCartaInterface[];
+  DetallesCarta?: DetalleCartaInterface[];
 }

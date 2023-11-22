@@ -24,7 +24,7 @@ Ubicacion.init(
     },
     descripcion: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     fila: {
       type: DataTypes.INTEGER,

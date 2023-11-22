@@ -2,6 +2,9 @@ import Carta from "../models/carta.model";
 import { CartaInterface } from "../interfaces/carta.interface";
 import DetalleCarta from "../models/detalleCarta.model";
 import { Op } from "sequelize";
+import Promocion from "../models/promocion.model";
+import Producto from "../models/producto.model";
+import TipoProducto from "../models/tipoProducto.model";
 
 const obtenerCartas = async (): Promise<CartaInterface[] | null> => {
   try {
@@ -9,10 +12,32 @@ const obtenerCartas = async (): Promise<CartaInterface[] | null> => {
       include: {
         model: DetalleCarta,
         as: "DetallesCarta",
+        include: [
+          {
+            model: Promocion,
+            as: "DetalleCartaPromocion",
+            attributes: ["nombre", "descripcion", "precio", "estado"],
+          },
+          {
+            model: Producto,
+            as: "DetalleCartaProducto",
+            attributes: ["nombre", "tipo", "precio", "habilitado"],
+
+            include: [
+              {
+                model: TipoProducto,
+                as: "TipoProducto",
+                attributes: ["nombre", "habilitado"],
+              },
+            ],
+            // attributes: ["id", "nombre"],
+          },
+        ],
       },
     });
     return cartas;
   } catch (error) {
+    console.log(error);
     throw new Error("Error al obtener las cartas");
   }
 };
@@ -23,6 +48,27 @@ const obtenerCartaPorId = async (cartaId: number): Promise<CartaInterface | null
       include: {
         model: DetalleCarta,
         as: "DetallesCarta",
+        include: [
+          {
+            model: Promocion,
+            as: "DetalleCartaPromocion",
+            attributes: ["nombre", "descripcion", "precio", "estado"],
+          },
+          {
+            model: Producto,
+            as: "DetalleCartaProducto",
+            attributes: ["nombre", "tipo", "precio", "habilitado"],
+
+            include: [
+              {
+                model: TipoProducto,
+                as: "TipoProducto",
+                attributes: ["nombre", "habilitado"],
+              },
+            ],
+            // attributes: ["id", "nombre"],
+          },
+        ],
       },
     });
     return carta;
@@ -42,6 +88,27 @@ const obtenerCartasHabilitadas = async (): Promise<CartaInterface[] | null> => {
       include: {
         model: DetalleCarta,
         as: "DetallesCarta",
+        include: [
+          {
+            model: Promocion,
+            as: "DetalleCartaPromocion",
+            attributes: ["nombre", "descripcion", "precio", "estado"],
+          },
+          {
+            model: Producto,
+            as: "DetalleCartaProducto",
+            attributes: ["nombre", "tipo", "precio", "habilitado"],
+
+            include: [
+              {
+                model: TipoProducto,
+                as: "TipoProducto",
+                attributes: ["nombre", "habilitado"],
+              },
+            ],
+            // attributes: ["id", "nombre"],
+          },
+        ],
       },
     });
     return cartasHabilitadas;
@@ -55,6 +122,7 @@ const crearCarta = async (nuevaCarta: CartaInterface): Promise<CartaInterface> =
     const cartaCreada: CartaInterface = await Carta.create(nuevaCarta);
     return cartaCreada;
   } catch (error) {
+    console.error(error);
     throw new Error("Error al crear la carta");
   }
 };

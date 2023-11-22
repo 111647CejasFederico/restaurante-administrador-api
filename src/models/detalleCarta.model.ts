@@ -71,9 +71,9 @@ DetalleCarta.init(
   }
 );
 
-DetalleCarta.belongsTo(Carta, {
-  foreignKey: "carta",
-  as: "DetalleCartaCarta",
+DetalleCarta.belongsTo(Promocion, {
+  foreignKey: "promocion",
+  as: "DetalleCartaPromocion",
 });
 
 DetalleCarta.belongsTo(Producto, {
